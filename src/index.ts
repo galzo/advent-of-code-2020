@@ -1,4 +1,4 @@
-import { day1Part1 } from "./day1/day1";
+import { day1Part1, day1Part2 } from "./day1/day1";
 
 async function runExcersie(exerciseFn: () => Promise<void>) {
     try {
@@ -8,6 +8,6 @@ async function runExcersie(exerciseFn: () => Promise<void>) {
     }
 }
 
-runExcersie(day1Part1).then(() => {
+runExcersie(day1Part2).then(() => {
     console.log("finished run");
 })
