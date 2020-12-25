@@ -23,6 +23,16 @@ const parsePasswords = (passwordsData: string[]): PasswordDetails[] => {
   });
 };
 
+const getPasswordsData = async () => {
+  const passwordsFile = await readFileAsStrings("src/day2/input/day2.txt");
+  return parsePasswords(passwordsFile);
+};
+
+/**
+ * Fetch all indices where the policy letter appears in the password
+ * @param password current password to inspect
+ * @param policyLetter the policy letter we search for
+ */
 const getLetterLocationsInPassword = (
   password: string,
   policyLetter: string
@@ -57,11 +67,9 @@ const _searchForOccouranceIndices = (
 };
 
 export const day2part1 = async () => {
-  const passwordsFile = await readFileAsStrings("src/day2/input/day2.txt");
-  const passwordsData = parsePasswords(passwordsFile);
+  const passwordsData = await getPasswordsData();
 
   const validPasswords = passwordsData.filter((passData) => {
-    // Fetch all indices where the policy letter appears in the password
     const policyLetterLocations = getLetterLocationsInPassword(
       passData.password,
       passData.requiredLetter
@@ -69,11 +77,9 @@ export const day2part1 = async () => {
 
     // Check the amount of matching letters, and see if its within
     // the acceptable policy range
-    const policyLetterCount = policyLetterLocations.length;
-
     return (
-      policyLetterCount >= passData.policyMinimum &&
-      policyLetterCount <= passData.policyMaximum
+      policyLetterLocations.length >= passData.policyMinimum &&
+      policyLetterLocations.length <= passData.policyMaximum
     );
   });
 
@@ -81,22 +87,18 @@ export const day2part1 = async () => {
 };
 
 export const day2part2 = async () => {
-  const passwordsFile = await readFileAsStrings("src/day2/input/day2.txt");
-  const passwordsData = parsePasswords(passwordsFile);
+  const passwordsData = await getPasswordsData();
 
   const validPasswords = passwordsData.filter((passData) => {
-    // Fetch all indices where the policy letter appears in the password
     const policyLetterLocations = getLetterLocationsInPassword(
       passData.password,
       passData.requiredLetter
     );
 
-    // Check how many indices match the provided policy locations
-    // the policy dictates that only one index can match the provided
-    // locations in order for a password to be valid
-    const locationsMatching = policyLetterLocations.filter((location) => {
-      // The policy is unaware of index zero, so we need to bump it up :(
-      const adjustedLocation = location + 1;
+    const locationsMatching = policyLetterLocations.filter((letterLocation) => {
+      // Check how many indices match the provided policy locations
+      // The policy is unaware of index zero, so we need to bump our index up :(
+      const adjustedLocation = letterLocation + 1;
 
       return (
         adjustedLocation === passData.policyMinimum ||
@@ -104,6 +106,8 @@ export const day2part2 = async () => {
       );
     });
 
+    // the policy dictates that only one index can match the provided
+    // locations in order for a password to be valid
     return locationsMatching.length === 1;
   });
 
