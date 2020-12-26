@@ -43,8 +43,9 @@ const getLetterLocationsInPassword = (
 };
 
 /**
- * Recursivley searches within a password for the given regex. accomulates all results and returns an array of all indices
- * where the regex matches the string
+ * Recursivley searches within a password for the given regex pattern. 
+ * accomulates all results and returns an array of all indices, 
+ * where the password matches the regex pattern
  * @param password - The input password
  * @param regex - The regex to use for searching within the pasword. the regex should use a /g flag.
  * @param results - accomulated results of all match indices within the password
@@ -107,7 +108,7 @@ export const day2part2 = async () => {
     });
 
     // the policy dictates that only one index can match the provided
-    // locations in order for a password to be valid
+    // policy letter locations in order for a password to be valid
     return locationsMatching.length === 1;
   });
 
