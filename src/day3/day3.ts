@@ -53,7 +53,7 @@ const calculateTreesOnSlope = (mapData: MapData, slope: Slope) => {
   while (currentRow < height) {
     const cordinate = map[currentRow][currentCol];
     totalTrees += cordinate;
-
+    
     currentRow += down;
     currentCol = (currentCol + right) % width;
   }
