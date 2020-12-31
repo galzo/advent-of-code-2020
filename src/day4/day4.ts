@@ -12,6 +12,33 @@ const requiredPassportFields = [
   "pid", // Passport ID
 ];
 
+const isValidHeight = (value: string) => {
+  const hairFormatRegex = /(\d+)(cm|in)/;
+  const hairMatchRes = hairFormatRegex.exec(value);
+};
+
+const isValidPassport = (value: string) => {
+  const passportRegex = /^\d+$/;
+  const passportValue = passportRegex.exec(value)?.[0];
+  return passportValue && passportValue.length === 9;
+};
+
+const isValidNumber = (
+  value: string,
+  requiredDigitsCount: number,
+  minValue: number,
+  maxValue: number
+) => {
+  const inputDigitsCount = value?.length ?? 0;
+
+  if (inputDigitsCount !== requiredDigitsCount) {
+    return false;
+  }
+
+  const num = Number(value);
+  return num && num >= minValue && num <= maxValue;
+};
+
 const parsePassportRecord = (record: string) => {
   // Each passport record is represented by key-value pairs
   // of (key:value), separated by spaces.
